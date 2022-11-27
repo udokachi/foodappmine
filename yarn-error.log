@@ -1,0 +1,64 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.19/libexec/bin/yarn.js dev
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.17.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EISDIR: illegal operation on a directory, read
+
+npm manifest: 
+  {
+    "name": "foodappmine",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "nodemon dist/app.js",
+      "compile": "tsc -w"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "@types/bcrypt": "^5.0.0",
+      "@types/cookie-parser": "^1.4.3",
+      "@types/express": "^4.17.14",
+      "@types/http-errors": "^2.0.1",
+      "@types/jsonwebtoken": "^8.5.9",
+      "@types/morgan": "^1.9.3",
+      "@types/nodemailer": "^6.4.6",
+      "@types/uuid": "^8.3.4",
+      "cookie-parser": "^1.4.6",
+      "express": "^4.18.2",
+      "http-errors": "^2.0.0",
+      "morgan": "^1.10.0"
+    },
+    "dependencies": {
+      "bcrypt": "^5.1.0",
+      "dotenv": "^16.0.3",
+      "env": "^0.0.2",
+      "joi": "^17.7.0",
+      "jsonwebtoken": "^8.5.1",
+      "nodemailer": "^6.8.0",
+      "sequelize": "^6.25.5",
+      "sqlite3": "^5.1.2",
+      "twilio": "^3.83.2",
+      "uuid": "^9.0.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
