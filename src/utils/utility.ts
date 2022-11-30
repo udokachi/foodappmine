@@ -27,10 +27,10 @@ export const adminSchema = Joi.object().keys({
 })
 
 export const updateSchema = Joi.object().keys({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-    address:  Joi.string().required(),
-    phone:  Joi.string().required(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+    address:  Joi.string(),
+    phone:  Joi.string(),
     
 })
 
@@ -39,11 +39,19 @@ export const vendorSchema = Joi.object().keys({
     phone: Joi.string().required(),
     password: Joi.string().pattern (new RegExp ('^[a-zA-Z0-9]{3,30}$')),
     name: Joi.string().required(),
-    ownerName: Joi.string().required(),
+    restaurantName: Joi.string().required(),
     address:  Joi.string().required(),
     pincode: Joi.string().required(),
     
    
+})
+
+export const updateVendorSchema = Joi.object().keys({
+    name: Joi.string(),
+    coverImage: Joi.string(),
+    address:  Joi.string(),
+    phone:  Joi.string(),
+    
 })
 export const option ={
     abortEarly:false,

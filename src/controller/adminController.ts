@@ -61,7 +61,7 @@ export const AdminRegister = async (req: JwtPayload, res: Response) => {
 
 
             })
-            //Check if the Admin exist
+            //Check if the Amin exist
             const Admin = await UserInstance.findOne({ where: { id: id } }) as unknown as UserAttributes;
 
 
@@ -221,7 +221,7 @@ export const SuperAdmin = async(req:JwtPayload, res:Response) =>{
          export const createVendor = async(req: JwtPayload, res: Response)=>{
          try{
             const id = req.user.id;
-            const { name, ownerName,pincode,phone,address, email, password } = req.body;
+            const { name, restaurantName,pincode,phone,address, email, password } = req.body;
             const uuidvendor= uuidv4()
             const validateResult = vendorSchema.validate(req.body, option)
             if(validateResult.error){
@@ -242,7 +242,7 @@ export const SuperAdmin = async(req:JwtPayload, res:Response) =>{
                     id : uuidvendor,
                     name,
                     pincode,
-                    ownerName,
+                    restaurantName,
                     email,
                     phone,
                     salt,
@@ -250,7 +250,8 @@ export const SuperAdmin = async(req:JwtPayload, res:Response) =>{
                     address,
                     role:"vendor",
                     serviceAvailable:false,
-                    rating:0
+                    rating:0,
+                    coverImage:''
                 })
                 return res.status(201).json({
                     message:"vendor created successfully",

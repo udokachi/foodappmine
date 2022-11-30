@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import {  GenerateSignature, loginSchema, option, validatePassword, } from '../utils';
+import {  GenerateSignature, loginSchema, option, updateVendorSchema, validatePassword, } from '../utils';
 import { v4 as uuidv4 } from 'uuid';
 import { JwtPayload } from 'jsonwebtoken';
 import { VendorAttributes, VendorInstance } from '../model/vendorModel';
@@ -11,7 +11,7 @@ export const vendorLogin = async(req:Request, res:Response)=>{
 
         const{ email, password}= req.body;
     
-        const validateResult = loginSchema.validate(req.body, option)
+        const validateResult = loginSchema.validate(req.body, option);
     
         if(validateResult.error){
             return res.status(400).json({
@@ -22,7 +22,7 @@ export const vendorLogin = async(req:Request, res:Response)=>{
 
         const Vendor = await VendorInstance.findOne({where:{email:email}}) as unknown as VendorAttributes; 
 
-        if(Vendor){
+        if (Vendor){
           const validation =  await validatePassword(password, Vendor.password, Vendor.salt);
            // bycrpt.compare(password, Vendor.password)
 
@@ -40,7 +40,8 @@ export const vendorLogin = async(req:Request, res:Response)=>{
             email: Vendor.email,
             serviceAvailable: Vendor.serviceAvailable,
             role: Vendor.role
-        })
+        });
+        
 
           }
         }
@@ -48,7 +49,7 @@ export const vendorLogin = async(req:Request, res:Response)=>{
             Error: "You are not a verified vendor"
         })
 
-
+        
     }catch(err){
         res.status(500).json({
             Error:"Internal server Error",
@@ -64,7 +65,7 @@ export const vendorLogin = async(req:Request, res:Response)=>{
              const id = req.vendor.id;
             //  console.log(id)
             const{
-                name, description, category, foodType, readyTime, price,}= req.body;
+                name, description, category, foodType, readyTime, price, image}= req.body;
                 const Vendor = await VendorInstance.findOne({where:{id:id}}) as unknown as VendorAttributes;
                 const foodid = uuidv4()
                 if(Vendor){
@@ -77,6 +78,7 @@ export const vendorLogin = async(req:Request, res:Response)=>{
                         readyTime, 
                         price,
                         rating:0,
+                        image: req.file.path,
                         vendorId:id
                     }) as unknown as FoodAttributes;
                     return res.status(201).json({
@@ -162,4 +164,49 @@ export const vendorLogin = async(req:Request, res:Response)=>{
 
       } 
       }
+    /************************************** updated Vendor **************************************/
+      export const updateVendorProfile = async(req:JwtPayload, res:Response)=>{
+        try{
+            const id = req.vendor.id
+            const {name,  address, phone, coverImage }= req.body;
+            //joi validation
+            const validateResult = updateVendorSchema.validate(req.body, option);
+            if(validateResult.error){
+                return res.status(400).json({
+                    Error:validateResult.error.details[0].message,
+                });
+            }
+          //check if Vendor is a registered Vendor
+          const Vendor = (await VendorInstance.findOne({where: {id:id}})) as unknown as VendorAttributes; 
+            if(!Vendor){
+                return res.status(400).json({
+                Error: "You are not authorized to update your profile"
+            });
+        }
+        const updatedVendor = (await VendorInstance.update(
+            {
+                name,
+                address,
+                phone,
+                coverImage:req.file.path
+        },
+       { where: { id: id },})) as unknown as VendorAttributes;
+       if(updatedVendor){
+        const Vendor = (await VendorInstance.findOne({where: {id:id}})) as unknown as VendorAttributes; 
+       return res.status(200).json({
+        message: "You have successfully updated your profile",
+        Vendor,
+    })
+       }
+    return res.status(400).json({
+        message:"Error occured"
+    });
+        }catch(err){
+            res.status(500).json({
+                Error:"Internal server Error",
+                route: "/vendors/update-profile",
+            });   
+        }
+    };
+     
        

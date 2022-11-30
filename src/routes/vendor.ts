@@ -1,11 +1,13 @@
 import express from 'express';
-import { createFood, deleteFood, vendorLogin, VendorProfile } from '../controller/vendorController';
+import { createFood, deleteFood, updateVendorProfile, vendorLogin, VendorProfile } from '../controller/vendorController';
 import { authVendor } from '../middleware/authorization';
+import { upload } from '../utils/multer';
 
 const router = express.Router();
 
 router.post('/login', vendorLogin);
-router.post('/create-food', authVendor, createFood);
+router.post('/create-food', authVendor,upload.single('image'), createFood);
 router.get('/get-profile' ,authVendor, VendorProfile);
 router.delete('/delete-food/:foodid',authVendor, deleteFood)
+router.patch('/update-profile', authVendor, upload.single('coverImage'), updateVendorProfile);
 export default router ;

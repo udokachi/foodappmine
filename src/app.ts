@@ -6,6 +6,8 @@ import indexRouter from './routes/index'
 import {db} from './config'
 import adminRoute from './routes/adminRoute';
 import vendorRoute from './routes/vendor'
+import dotenv from 'dotenv'
+dotenv.config()
 
 //sequelize connection
 db.sync().then(()=>{
