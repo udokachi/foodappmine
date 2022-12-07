@@ -7,6 +7,7 @@ import {db} from './config'
 import adminRoute from './routes/adminRoute';
 import vendorRoute from './routes/vendor'
 import dotenv from 'dotenv'
+import cors from 'cors'
 dotenv.config()
 
 //sequelize connection
@@ -21,7 +22,7 @@ const app = express()
 app.use(express.json());
 app.use(logger('dev'));
 app.use(cookieParser());
-
+app.use(cors());
 //Router middleware
 app.use('/', indexRouter)
 app.use('/users', userRouter)
@@ -29,7 +30,7 @@ app.use('/admins', adminRoute)
 app.use('/vendors', vendorRoute)
 
 
-const port = 4000
+const port = 4004
 app.listen(port,()=>{
     console.log(`Server running on http://localhost:${port}`)
 })

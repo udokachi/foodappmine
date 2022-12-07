@@ -208,5 +208,53 @@ export const vendorLogin = async(req:Request, res:Response)=>{
             });   
         }
     };
+     /************************************** get all Vendor **************************************/
+    export const GetAllVendor = async (req:JwtPayload, res:Response)=>{
+        try{
+                 // check if vendor exist
+
+    const Vendor = await VendorInstance.findAndCountAll({}) 
+        return res.status(200).json({
+            Vendor: Vendor.rows,
+        })
+
+
+        }catch(err){
+        res.status(500).json({
+            Error:"Internal server Error",
+            route:"/vendors/get-profile"
+        })
+
+      } 
+      }
      
-       
+      
+/************************************** get all Vendor food **************************************/
+      export const GetFoodByVendor = async (req:JwtPayload, res:Response)=>{
+        try{
+                const id =req.params.id;
+                 // check if vendor exist
+
+        const Vendor = (await VendorInstance.findOne({
+            where:{id:id},
+            include:[
+                {
+                    model:FoodInstance,
+                    as:'food',
+                    attributes:["id", "name", "description", "image", "category", "foodType", "readyTime", "price", "rating","vendorId"]
+                },
+            ]
+        })) as unknown as VendorAttributes; 
+        return res.status(200).json({
+            Vendor
+        })
+
+
+        }catch(err){
+        res.status(500).json({
+            Error:"Internal server Error",
+            route:"/vendors/get-vendor-food/:id"
+        })
+
+      } 
+      }

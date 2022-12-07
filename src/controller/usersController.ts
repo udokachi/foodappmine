@@ -64,7 +64,7 @@ try{
 
         })
         // send OTP to user
-        await onRequestOTP(otp, phone);
+        // await onRequestOTP(otp, phone);
 
         //Send Email
         const html = emailHtml(otp)
@@ -90,7 +90,7 @@ try{
     }
    
     return res.status(400).json({
-        message: "User already exist",
+        Error: "User already exist",
     })
 
 
@@ -223,7 +223,7 @@ try{
          
          if(updatedUser) {
             //send OTP to user
-            await onRequestOTP(otp, User.phone);
+            // await onRequestOTP(otp, User.phone);
 
             //Send Mail to user
             const html = emailHtml(otp)
@@ -236,7 +236,7 @@ try{
 
          }
          return res.status(400).json({
-            Error: "Error sending message"
+            Error: "Error resending message"
          })
         }
     }catch(err){
